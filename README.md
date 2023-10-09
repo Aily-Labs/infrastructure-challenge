@@ -51,23 +51,20 @@ You will be evaluated based on the:
 * best practices
 * quality of the documentation provided with the code
 
-# Task 3 - Get it to work with Kubernetes and fluxCD
+# Task 3 - Get it to work with Kubernetes
 Next step is completely separate from step 2. 
 Go back to the application you built-in Stage 1 and get it to work with Kubernetes.
 Separate out the two containers into separate pods, communicate between the two containers, add a load balancer (or equivalent), expose the final App over port 80 to the final user (and any other tertiary tasks you might need to do)
 
 Describe the process to:
-1. Install GitOps controllers into the cluster
-2. How to retrieve git credentials and put them into the cluster
-3. Create the Deployment, Service, RBAC, etc. to make the app work
-4. Provision the cluster via GitOps
+1. Boostrap the cluster
+2. Create the Deployment, Service, RBAC, etc. to make the app work
+3. (extra) How to manage the continuous deployment with FluxCD / ArgoCD
 
 Hints:
-* You can use tools like `minikube` to have the cluster working locally
-* Extra points if the boostrap of the cluster is thought on EKS
+* You can use tools like `minikube` / `kind` to have the cluster working locally
 
 You will be evaluated based on the:
-* gitops code
 * best practices
 * quality of the documentation provided
 
