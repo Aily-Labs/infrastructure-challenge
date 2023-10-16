@@ -36,7 +36,7 @@ You will be evaluated based on the:
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
 you could deploy it to services which take an advantage of that fact. (example, AWS
-EBS or ECS?)
+EC2 or ECS?)
 The React App should be accessible on a public URL.
 Use the best practices for exposing the cloud VM to the internet, block access to
 unused ports, add a static IP (elastic IP for AWS), create proper IAM users and
@@ -45,6 +45,7 @@ configure the app exactly how you would in production.
 Hints:
 * It is acceptable the use of other tools like Ansible for some tasks.
 * Terraform code is not expected to fully work, the purpose of this exercise is to validate terraform skills and AWS Service knowledge.
+* You can assume some bootstraping of the account is already in place, like VPC.
 
 You will be evaluated based on the:
 * terraform code
