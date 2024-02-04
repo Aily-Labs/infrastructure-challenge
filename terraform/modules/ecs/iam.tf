@@ -1,11 +1,12 @@
 resource "aws_iam_role" "ecs_task_execution_role" {
   name               = "${var.name}_task_execution_role"
-  description        = "Custom ecs_task_execution_role for ${var.name}. This is used by the ECS Service"
+  description        = "Custom ecs task execution role for ${var.name}. This is used by the ECS Service"
   assume_role_policy = data.aws_iam_policy_document.ecs_trust.json
 }
 
 resource "aws_iam_role" "ecs_task_role" {
   name               = "${var.name}-ecs-task-role"
+  description        = "Custom ecs task role for ${var.name}. This is used by the ECS Service"
   assume_role_policy = data.aws_iam_policy_document.ecs_trust.json
 }
 

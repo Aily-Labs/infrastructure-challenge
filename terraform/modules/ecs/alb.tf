@@ -2,7 +2,7 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "9.5.0"
 
-  name                       = "infrastructure"
+  name                       = var.name
   enable_deletion_protection = var.alb_deletion_protection
   vpc_id                     = var.vpc_id
   subnets                    = var.subnets_id
@@ -56,7 +56,7 @@ module "alb" {
     infrastructure-public = {
       name_prefix       = "infra"
       protocol          = "HTTP"
-      port              = 3000
+      port              = var.alb_target_group_port
       target_type       = "ip"
       create_attachment = false
     }

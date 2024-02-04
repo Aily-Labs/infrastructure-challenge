@@ -39,7 +39,7 @@ resource "aws_ecs_task_definition" "this" {
 
       portMappings = [
         {
-          containerPort = 80
+          containerPort = var.alb_target_group_port
           protocol      = "tcp"
         }
       ]
@@ -71,7 +71,7 @@ resource "aws_ecs_task_definition" "this" {
 
       portMappings = [
         {
-          containerPort = 8080
+          containerPort = var.ecs_flask_api_port
           protocol      = "tcp"
         }
       ]
@@ -101,7 +101,7 @@ resource "aws_ecs_service" "this" {
   network_configuration {
     security_groups  = [aws_security_group.this_ecs.id]
     subnets          = var.subnets_id
-    assign_public_ip = true
+    assign_public_ip = var.ecs_task_public_ip
   }
 
   load_balancer {

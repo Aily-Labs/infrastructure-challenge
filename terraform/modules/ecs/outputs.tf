@@ -21,3 +21,7 @@ output "ecs_cluster_arn" {
 output "ecs_cluster_capacity_providers" {
   value = aws_ecs_cluster_capacity_providers.this.capacity_providers
 }
+
+output "dns_name" {
+  value = aws_route53_record.this.fqdn
+}
