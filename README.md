@@ -9,7 +9,7 @@ The app is setup in a pretty standard way, just like most Python-React Apps.
 In the api directory, do the following.
 1. `pip install -r requirements.txt`
 2. `python app.py`
-3. Visit [this](http://localhost:8000/stats)
+3. Visit [this](http://localhost:8080/stats)
 
 ## React Frontend
 > Node version used: v16.20.1 (installed with nvm)
@@ -32,6 +32,12 @@ You will be evaluated based on the:
 * best practices
 * ease of use
 * quality of the documentation provided with the code
+
+## Building Images
+
+First, I chose to use an automated process to build and push the images to ECR. For this, I used a GitHub Actions pipeline that builds the images whenever a new PR is opened in this repository. When the merge to `main` is done, it should build and push the images to the `python-api` and `node-frontend` ECR repositories. The names of these repositories can be easily changed in the pipeline matrix.
+
+To grant GitHub the necessary permissions for pushing images, we'll use GitHub OpenID. For this purpose, I've built a module that will grant the required permissions for this repository. After deploying this module, you'll need to add the role ARN from the pipeline into `role-to-assume`.
 
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
