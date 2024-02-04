@@ -28,7 +28,7 @@ jobs:
     - name: Configure AWS Role
       uses: aws-actions/configure-aws-credentials@v4.0.1
       with:
-        role-to-assume: # TODO
+        role-to-assume: # The AWS role ARN for GitHub should be inserted here.
         aws-region: us-east-1
 
     - name: Login to Amazon ECR
