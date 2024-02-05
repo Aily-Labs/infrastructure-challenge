@@ -95,7 +95,7 @@ resource "aws_ecs_service" "this" {
 
   name                   = var.name
   cluster                = aws_ecs_cluster.this.id
-  task_definition        = aws_ecs_task_definition.this[*].arn
+  task_definition        = aws_ecs_task_definition.this[0].arn
   desired_count          = 1
   force_new_deployment   = true
   scheduling_strategy    = "REPLICA"
