@@ -67,11 +67,14 @@ if [[ " ${DOCKERFILE_PATH} " == "" ]]; then
     exit 1
 fi
 
-if [[ ! " ${IMAGE_TAG} " == "" ]]; then
-    IMAGE_TAG="0.1"
-fi
-
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+
+if [[ "${IMAGE_TAG}" != "" ]]; then
+  if ! aws ecr describe-images --repository-name ${REPOSITORY} --image-ids imageTag=${IMAGE_TAG} --region ${AWS_REGION} >/dev/null 2>&1; then
+    docker_build_push ${REPOSITORY} ${IMAGE_TAG} ${DOCKERFILE_PATH} ${AWS_REGION} ${AWS_ACCOUNT_ID}
+    exit 0
+  fi
+fi
 
 for first_number in {0..10}; do
   if [ ${first_number} -eq 10 ]; then

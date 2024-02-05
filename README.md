@@ -39,6 +39,22 @@ First, I chose to use an automated process to build and push the images to ECR. 
 
 To grant GitHub the necessary permissions for pushing images, we'll use GitHub OpenID. For this purpose, I've built a module that will grant the required permissions for this repository. After deploying this module, you'll need to add the role ARN from the pipeline into `role-to-assume`.
 
+Anyway, if it's not possible to use GitHub OpenID, I've created a script located in the root of this project with the name `docker_build_push.sh` to facilitate the build and push of Docker images.
+Before using the script, you'll need to install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) the necessary permissions where the push will be performed.
+
+Example of usage for the script:
+
+```shell
+./docker_build_push.sh repository=flask-api aws_region=eu-west-1 dockerfile_path=./api/
+```
+
+| Name | Description | Required |
+|------|-------------|:--------:|
+| repository | Repository ECR name | yes |
+| aws_region | AWS region where the script will work | yes |
+| dockerfile_path | Path where the Dockerfile is located | yes |
+| image_tag | Tag for the image; if no tag is specified, it will try to use tags from 0.1 to 10.9 | no |
+
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
 you could deploy it to services which take an advantage of that fact. (example, AWS
