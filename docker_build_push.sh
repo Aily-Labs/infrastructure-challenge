@@ -3,14 +3,16 @@
 docker_build_push() {
   local REPOSITORY=$1
   local IMAGE_TAG=$2
+  local DOCKERFILE_PATH=$3
   echo -e "\The Docker build will start in the repository ${REPOSITORY} with the tag ${IMAGE_TAG}."
-  docker build -t ${REPOSITORY}:${IMAGE_TAG} .
+  docker build -t ${REPOSITORY}:${IMAGE_TAG} ${DOCKERFILE_PATH}
   docker tag ${REPOSITORY}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOSITORY}:${IMAGE_TAG}
   docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOSITORY}:${IMAGE_TAG}
 }
 
 REPOSITORY=""
 AWS_REGION=""
+DOCKERFILE_PATH=""
 IMAGE_TAG=""
 CURRENT_DATE=$(date)
 
@@ -23,7 +25,11 @@ for arg in "$@"; do
         aws_region=*)
         AWS_REGION="${arg#*=}"
         shift
-        ;;        
+        ;;
+        dockerfile_path=*)
+        DOCKERFILE_PATH="${arg#*=}"
+        shift
+        ;;
         image_tag=*)
         IMAGE_TAG="${arg#*=}"
         shift
@@ -45,6 +51,12 @@ AWS_REGION=$(echo "$AWS_REGION" | tr '[:upper:]' '[:lower:]')
 
 if [[ " ${AWS_REGION} " == "" ]]; then
     echo -e "\n----> Please specify a region. eg aws_region=us-east-1"
+    echo -e "* ${CURRENT_DATE} - ERROR: aws_region is empty\n"
+    exit 1
+fi
+
+if [[ " ${DOCKERFILE_PATH} " == "" ]]; then
+    echo -e "\n----> Please specify a Dockerfile path. eg ./path"
     echo -e "* ${CURRENT_DATE} - ERROR: aws_region is empty\n"
     exit 1
 fi
