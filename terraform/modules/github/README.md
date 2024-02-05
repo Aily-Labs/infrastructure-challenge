@@ -5,8 +5,18 @@ This module deploys everything needed to allow Github action push to ECR reposit
 ## Usage
 
 ```hcl
+module "ecr" {
+  source = "./modules/ecr"
+
+  repositories_name = [
+    "flask-api",
+    "frontend"
+  ]
+}
+
 module "github_openid" {
-  source  = "./modules/github"
+  source               = "./modules/github"
+  ecr_repositories_arn = module.ecr.repositories_arn
 }
 ```
 

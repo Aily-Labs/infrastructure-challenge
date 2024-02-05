@@ -1,5 +1,5 @@
 module "ecr" {
-  source = "../../backup/jefferson/infrastructure-challenge/terraform/modules/ecr"
+  source = "./modules/ecr"
 
   repositories_name = [
     "flask-api",
@@ -8,7 +8,7 @@ module "ecr" {
 }
 
 module "github_openid" {
-  source               = "../../backup/jefferson/infrastructure-challenge/terraform/modules/github"
+  source               = "./modules/github"
   ecr_repositories_arn = module.ecr.repositories_arn
 }
 

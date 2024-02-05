@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_region" "current" {}
 
 data "aws_route53_zone" "this" {
@@ -50,7 +52,8 @@ data "aws_iam_policy_document" "this_ecs_task_ssm" {
       "ssmmessages:OpenDataChannel"
     ]
     resources = [
-      "*"
+      "arn:aws:ssmmessages:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*",
+      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/${var.name}/*"
     ]
   }
 
@@ -61,7 +64,7 @@ data "aws_iam_policy_document" "this_ecs_task_ssm" {
       "ecs:ExecuteCommand",
     ]
     resources = [
-      "*"
+      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/${var.name}/*"
     ]
   }
 }
