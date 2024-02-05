@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "github_assume_role" {
     principals {
       type = "Federated"
       identifiers = [
-        data.aws_iam_openid_connect_provider.github_openid.arn
+        aws_iam_openid_connect_provider.github.arn
       ]
     }
     condition {
@@ -23,5 +23,28 @@ data "aws_iam_policy_document" "github_assume_role" {
         "repo:Aily-Labs/infrastructure-challenge:pull_request"
       ]
     }
+  }
+}
+
+data "aws_iam_policy_document" "github" {
+  statement {
+    sid = "AllowPushPull"
+    actions = [
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeImages"
+    ]
+    resources = var.ecr_repositories_arn
+  }
+
+  statement {
+    sid       = "GetAuthorizationToken"
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*"]
   }
 }

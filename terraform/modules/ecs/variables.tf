@@ -20,9 +20,15 @@ variable "subnets_id" {
   type        = list(string)
 }
 
+variable "alb_https_expose" {
+  type    = bool
+  default = true
+}
+
 variable "certificate_arn" {
   description = "ARN of the certificate to be used on ALB"
   type        = string
+  default     = null
 }
 
 variable "alb_target_group_port" {
@@ -63,11 +69,13 @@ variable "ecs_task_public_ip" {
 variable "frontend_docker_image" {
   description = "Image to be used in the frontend container"
   type        = string
+  default     = null
 }
 
 variable "flask_api_docker_image" {
   description = "Image to be used in the API container"
   type        = string
+  default     = null
 }
 
 variable "ecr_repositories_arn" {

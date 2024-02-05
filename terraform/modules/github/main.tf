@@ -8,3 +8,9 @@ resource "aws_iam_role" "github" {
   name               = "github-actions-aily-labs"
   assume_role_policy = data.aws_iam_policy_document.github_assume_role.json
 }
+
+resource "aws_iam_role_policy" "github" {
+  name   = "github-actions-ecr-repositories"
+  policy = data.aws_iam_policy_document.github.json
+  role   = aws_iam_role.github.id
+}
