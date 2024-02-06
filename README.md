@@ -121,6 +121,8 @@ Example of usage for the script:
 After running the minikube installation, we are ready to deploy the applications.
 First, you need to ensure that your images are available on the machine. You can import any image using the command `minikube image load nginx:latest`. In my case, I used images from ECR, so I first configured my instance profile to have access to my ECR repositories and then [logged](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html#cli-authenticate-registry) in.
 
+After obtaining the images in your cluster, it will be necessary to update the deployment YAML with the [frontend](https://github.com/jeffersonferrari/infrastructure-challenge/blob/a14b3f4d3c85dd6759332698a8c70e604ac008c2/kubernetes/infrastructure-challenge.yaml#L24) and [API](https://github.com/jeffersonferrari/infrastructure-challenge/blob/a14b3f4d3c85dd6759332698a8c70e604ac008c2/kubernetes/infrastructure-challenge.yaml#L28) images.
+
 Example:
 
 ```shell
