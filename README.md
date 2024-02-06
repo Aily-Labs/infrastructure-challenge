@@ -63,9 +63,9 @@ For this, I've added 3 new modules that can be found in `./terraform/modules`. T
 
 On the ECS module, you can configure the infrastructure without deploying the containers by simply ignoring the variables `frontend_docker_image` and `flask_api_docker_image`. This is because you will need to create your repositories in ECR first before deploying the images to ECS. Alternatively, you can temporarily remove this module from `./terraform/main.tf` while creating the repositories on ECR and then add it back.
 
-You will also need to provide three variables from ECS module: `vpc_id`, `subnets_id`, and `ecr_repositories_arn`. You can find more information about these variables [here](https://github.com/Aily-Labs/infrastructure-challenge/blob/a0d095686fa76e9bd1662ae01294bad42a344385/terraform/modules/ecs/README.md).
+You will also need to provide three variables from ECS module: `vpc_id`, `subnets_id`, and `ecr_repositories_arn`. You can find more information about these variables [here](https://github.com/jeffersonferrari/infrastructure-challenge/blob/origin/jefferson_ferrari_test/terraform/modules/ecs/README.md).
 
-With that said, you will need to [configure your AWS credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) with permissions to deploy this on your AWS account. You don't need to worry about the provider version since it's already defined [here](https://github.com/Aily-Labs/infrastructure-challenge/blob/a0d095686fa76e9bd1662ae01294bad42a344385/terraform/provider.tf#L5).
+With that said, you will need to [configure your AWS credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) with permissions to deploy this on your AWS account. You don't need to worry about the provider version since it's already defined [here](https://github.com/jeffersonferrari/infrastructure-challenge/blob/cada9d87f07cec9977edd545426526461729811f/terraform/provider.tf#L5).
 
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
@@ -102,6 +102,62 @@ Hints:
 You will be evaluated based on the:
 * best practices
 * quality of the documentation provided
+
+## Minikube installation
+
+All tests were performed on an EC2 instance `t3a.small` with `ubuntu 22.04`.
+
+To set up minikube for deploying the applications, I created a script to automate this task, which can be found in `./kubernetes/minikube.sh`.
+This script accepts a parameter with two options, `install=docker` which is useful if you don't have docker installed, and then `install=minikube`.
+
+Example of usage for the script:
+
+```shell
+./minikube.sh install=docker
+
+./minikube.sh install=minikube
+```
+
+After running the minikube installation, we are ready to deploy the applications.
+First, you need to ensure that your images are available on the machine. You can import any image using the command `minikube image load nginx:latest`. In my case, I used images from ECR, so I first configured my instance profile to have access to my ECR repositories and then [logged](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html#cli-authenticate-registry) in.
+
+Example:
+
+```shell
+minikube image load ************.dkr.ecr.eu-west-1.amazonaws.com/frontend:0.1
+minikube image load ************.dkr.ecr.eu-west-1.amazonaws.com/flask-api:0.1
+
+kubectl apply -f infrastructure-challenge.yaml
+
+kubectl get svc -n infrastructure-challenge
+NAME               TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+sysstats-service   NodePort   10.108.251.23   <none>        80:31169/TCP   133m
+
+minikube service sysstats-service --url -n infrastructure-challenge
+http://192.168.49.2:31169
+
+curl -i http://192.168.49.2:31169
+HTTP/1.1 200 OK
+Server: nginx/1.25.3
+Date: Tue, 06 Feb 2024 20:45:05 GMT
+Content-Type: text/html
+Content-Length: 3026
+Last-Modified: Mon, 05 Feb 2024 17:09:16 GMT
+Connection: keep-alive
+ETag: "65c1163c-bd2"
+Accept-Ranges: bytes
+
+curl -i http://192.168.49.2:31169/stats
+HTTP/1.1 200 OK
+Server: nginx/1.25.3
+Date: Tue, 06 Feb 2024 20:45:35 GMT
+Content-Type: application/json
+Content-Length: 24
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+
+{"cpu":10.8,"ram":57.9}
+```
 
 # Task 4 - AWS Tooling
 Next step is completely separate from last tasks.
