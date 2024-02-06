@@ -72,7 +72,7 @@ module "ecs" {
 | alb_https_expose | Enable or disable HTTPS exposure. If true, it should use the `certificate_arn` | `bool` | `true` | no |
 | certificate_arn | The ARN for the certificate to be used on the ALB. It is required when `alb_https_expose` is true | `string` | `null` | no |
 | alb_target_group_port | The port that the target group should communicate with the tasks | `number` | `80` | no |
-| zone_name | The name of the zone where the CNAME for the ALB will be created | `string` | `` | yes |
+| zone_name | The name of the zone where the CNAME for the ALB will be created | `string` | `null` | no |
 | ecs_task_cpu | Number of CPU unit desired on the ECS task | `number` | `256` | no |
 | ecs_task_memory | Number of memory desired on the ECS task | `number` | `512` | no |
 | ecs_flask_api_port | The port to be used for communication with the API | `number` | `8080` | no |

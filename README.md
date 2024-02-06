@@ -55,6 +55,18 @@ Example of usage for the script:
 | dockerfile_path | Path where the Dockerfile is located | yes |
 | image_tag | Tag for the image; if no tag is specified, it will try to use tags from 0.1 to 10.9 | no |
 
+## Terraform
+
+After the process of building and pushing the images to your ECR repository, we will deploy them to ECS.
+
+For this, I've added 3 new modules that can be found in `./terraform/modules`. The ECR module is responsible for creating the repositories in your desired AWS ECR account, and the ECS module will deploy the images in your account.
+
+On the ECS module, you can configure the infrastructure without deploying the containers by simply ignoring the variables `frontend_docker_image` and `flask_api_docker_image`. This is because you will need to create your repositories in ECR first before deploying the images to ECS. Alternatively, you can temporarily remove this module from `./terraform/main.tf` while creating the repositories on ECR and then add it back.
+
+You will also need to provide three variables from ECS module: `vpc_id`, `subnets_id`, and `ecr_repositories_arn`. You can find more information about these variables here.
+
+With that said, you will need to configure your credentials with permissions to deploy this on your AWS account. You don't need to worry about the provider version since it's already defined here.
+
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
 you could deploy it to services which take an advantage of that fact. (example, AWS

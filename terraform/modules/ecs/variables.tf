@@ -40,6 +40,7 @@ variable "alb_target_group_port" {
 variable "zone_name" {
   description = "Route53 zone name"
   type        = string
+  default     = null
 }
 
 variable "ecs_task_cpu" {

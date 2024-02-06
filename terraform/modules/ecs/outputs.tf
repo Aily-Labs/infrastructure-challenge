@@ -51,5 +51,5 @@ output "ecs_task_role_arn" {
 }
 
 output "dns_name" {
-  value = aws_route53_record.this.fqdn
+  value = aws_route53_record.this[*].fqdn
 }
