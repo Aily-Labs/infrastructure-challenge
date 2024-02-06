@@ -177,6 +177,95 @@ You will be evaluated based on the:
 * Implementation of Help for usage of the CLI
 * Error Handling
 
+## How the fetch script works
+
+To run this script, you need to have [python installed](https://www.python.org/downloads/), preferably version `3.8` or higher, as well as the [boto3](https://pypi.org/project/boto3/) library. An alternative is to have pyenv installed on your computer to create a virtual environment for the script. If you have [pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) installed, you can follow this example:
+
+```shell
+cd ./aws_tooling
+python3 -m venv aws_tooling
+. ./aws_tooling/bin/activate
+pip install -r ./requirements.txt
+```
+
+The script expects four parameters by default:
+
+| Name | Description | Required |
+|------|-------------|:--------:|
+| aws_regions | List of regions, e.g. `us-east-1 us-west-1` | yes |
+| architecture | Architecture, e.g. `x86_64`) | yes |
+| os | Operating System, e.g. `ubuntu`) | yes |
+| creation_date | Date created, should follow the format of `YYYY-MM-DD` separated by `-`, e.g. `2023-12-24` | yes |
+
+Example of usage for the script:
+
+```shell
+python3 aws_cli.py --aws_regions eu-west-1 us-east-1 --architecture x86_64 --os CentOS --creation_date 2023-12-2
+
+Fetching for AMIs in region eu-west-1
+
+{
+    "Images": [
+        {
+            "Architecture": "x86_64",
+            "CreationDate": "2023-12-26T16:03:41.000Z",
+            "ImageId": "ami-0487c8c5a12e92d98",
+            "ImageLocation": "aws-marketplace/ (SupportedImages) - Redis - CentOS 7 x86_64 - 20231204 - 20231226-35eddf45-9ec1-421b-867a-7f981203b0a6",
+            "ImageType": "machine",
+            "Public": true,
+            "OwnerId": "679593333241",
+            "PlatformDetails": "Linux/UNIX",
+            "UsageOperation": "RunInstances",
+            "ProductCodes": [
+                {
+                    "ProductCodeId": "36xselgbwce5xnwb5a3a4v0km",
+                    "ProductCodeType": "marketplace"
+                }
+            ],
+            "State": "available",
+            "BlockDeviceMappings": [
+                {
+                    "DeviceName": "/dev/sda1",
+                    "Ebs": {
+                        "DeleteOnTermination": false,
+                        "SnapshotId": "snap-05615c8b8b269ab17",
+                        "VolumeSize": 8,
+                        "VolumeType": "gp2",
+                        "Encrypted": false
+                    }
+                }
+            ],
+            "Description": "Redis labs, Redislabs, redis stack,Redis cache,Redis cloud, CentOS Linux 7, CentOS 7",
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "ImageOwnerAlias": "aws-marketplace",
+            "Name": " (SupportedImages) - Redis - CentOS 7 x86_64 - 20231204 - 20231226-35eddf45-9ec1-421b-867a-7f981203b0a6",
+            "RootDeviceName": "/dev/sda1",
+            "RootDeviceType": "ebs",
+            "SriovNetSupport": "simple",
+            "VirtualizationType": "hvm",
+            "DeprecationTime": "2025-12-26T16:03:41.000Z"
+        }
+    ],
+    "ResponseMetadata": {
+        "RequestId": "baa2b0c5-1177-4cec-896f-35516a38a139",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "baa2b0c5-1177-4cec-896f-35516a38a139",
+            "cache-control": "no-cache, no-store",
+            "strict-transport-security": "max-age=31536000; includeSubDomains",
+            "vary": "accept-encoding",
+            "content-type": "text/xml;charset=UTF-8",
+            "transfer-encoding": "chunked",
+            "date": "Tue, 06 Feb 2024 22:34:55 GMT",
+            "server": "AmazonEC2"
+        },
+        "RetryAttempts": 0
+    }
+}
+```
+
+
 # Summary
 This documentation is supposed to be very high-level, you will be evaluated on the basis of the low level decisions you make while implementing it and your thought process behind them. If you have any questions at all feel free to reach out and ask for help. Please package your code up in a Github repo and share the link.
 
