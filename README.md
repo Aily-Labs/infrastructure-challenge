@@ -57,15 +57,15 @@ Example of usage for the script:
 
 ## Terraform
 
-After the process of building and pushing the images to your ECR repository, we will deploy them to ECS.
+After the process of building and pushing the images to your ECR repository, we will deploy them to [ECS](https://github.com/Aily-Labs/infrastructure-challenge/blob/a0d095686fa76e9bd1662ae01294bad42a344385/terraform/main.tf#L20).
 
 For this, I've added 3 new modules that can be found in `./terraform/modules`. The ECR module is responsible for creating the repositories in your desired AWS ECR account, and the ECS module will deploy the images in your account.
 
 On the ECS module, you can configure the infrastructure without deploying the containers by simply ignoring the variables `frontend_docker_image` and `flask_api_docker_image`. This is because you will need to create your repositories in ECR first before deploying the images to ECS. Alternatively, you can temporarily remove this module from `./terraform/main.tf` while creating the repositories on ECR and then add it back.
 
-You will also need to provide three variables from ECS module: `vpc_id`, `subnets_id`, and `ecr_repositories_arn`. You can find more information about these variables here.
+You will also need to provide three variables from ECS module: `vpc_id`, `subnets_id`, and `ecr_repositories_arn`. You can find more information about these variables [here](https://github.com/Aily-Labs/infrastructure-challenge/blob/a0d095686fa76e9bd1662ae01294bad42a344385/terraform/modules/ecs/README.md).
 
-With that said, you will need to configure your credentials with permissions to deploy this on your AWS account. You don't need to worry about the provider version since it's already defined here.
+With that said, you will need to [configure your AWS credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) with permissions to deploy this on your AWS account. You don't need to worry about the provider version since it's already defined [here](https://github.com/Aily-Labs/infrastructure-challenge/blob/a0d095686fa76e9bd1662ae01294bad42a344385/terraform/provider.tf#L5).
 
 # Task 2 - Deploy on AWS with terraform
 It's important to remember here that the application is already containerize, maybe
